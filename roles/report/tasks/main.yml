@@ -14,6 +14,11 @@
   args:
       chdir: /coverage
 
+- name: generate xml coverage report
+  shell: coverage xml --rcfile=/coverage/.coveragerc
+  args:
+      chdir: /coverage
+
 - name: generate plain text coverage overview
   shell: "coverage report --rcfile=/coverage/.coveragerc &> ./coverage_{{ inventory_hostname }}/coverage_{{ inventory_hostname }}.txt"
   args:
