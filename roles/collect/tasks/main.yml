@@ -1,0 +1,26 @@
+- name: get openstack-service command
+  yum: name=openstack-utils state=present
+
+# workaround due to the following bug:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1394689
+- name: stop zaqar service
+  become: yes
+  shell: systemctl stop openstack-zaqar
+  when: inventory_hostname == groups['undercloud'][0]
+
+- name: stop all services so they write out data files
+  shell: openstack-service stop
+  ignore_errors: yes
+
+- name: aggregate covereage data per host
+  shell: coverage combine --append --rcfile=/coverage/.coveragerc
+  args:
+      chdir: /coverage
+
+- name: copy coverage data to undercloud
+  synchronize:
+      src: /coverage/.coverage
+      dest: /coverage/.coverage.{{ inventory_hostname }}
+      mode: pull
+  when: inventory_hostname != groups['undercloud'][0]
+  delegate_to: "{{ groups['undercloud'][0] }}"
