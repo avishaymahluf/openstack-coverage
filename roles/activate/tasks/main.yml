@@ -5,13 +5,11 @@
     file: "dfg/{{ test.dfg }}.yml"
 
 - name: Install pip
-  become: yes
   easy_install:
     name: pip
     state: latest
 
 - name: Install coverage
-  become: yes
   pip:
     name: "{{ item }}"
     state: latest
@@ -19,7 +17,6 @@
       - coverage
 
 - name: install python-devel and gcc
-  become: yes
   yum:
     name: "{{ item }}"
     state: present
@@ -28,7 +25,6 @@
     - gcc
 
 - name: get openstack-service command
-  become: yes
   yum:
     name: openstack-utils
     state: present
@@ -48,32 +44,42 @@
     src: sitecustomize.py
     mode: 0644
 
-#- copy:
-#    dest: "/coverage/collect.sh"
-#    src: collect.sh
-#    mode: 0744
+# increase neutron timeout on controllers to avoid failing when stopping services
+- block:
+  - name: Increase neutron server graceful_shutdown_timeout
+    ini_file:
+      path: /etc/neutron/neutron.conf
+      section: DEFAULT
+      option: graceful_shutdown_timeout
+      value: 300
+      backup: yes
 
-#- copy:
-#    dest: /etc/cron.d/coverage-combine
-#    src: coverage.cron
-#    mode: 0644
+  - name: Increase neutron server TimeoutStopSec
+    ini_file:
+      path: /usr/lib/systemd/system/neutron-server.service
+      section: Service
+      option: TimeoutStopSec
+      value: 300
+      backup: yes
+
+  - name: daemon-reload
+    shell: systemctl daemon-reload
+
+  when: inventory_hostname in groups['controller']
 
 # workaround due to the following bug:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1394689
 - name: stop zaqar service
-  become: yes
   shell: systemctl stop openstack-zaqar
   when: inventory_hostname == groups['undercloud'][0]
 
 - name: restart all services to activate coverage
-  become: yes
   ignore_errors: yes
   shell: openstack-service restart
   environment:
         COVERAGE_PROCESS_START: /coverage/.coveragerc
 
 - name: start zaqar service
-  become: yes
   shell: systemctl start openstack-zaqar
   environment:
         COVERAGE_PROCESS_START: /coverage/.coveragerc
