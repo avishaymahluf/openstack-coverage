@@ -19,3 +19,10 @@
   become: true
   roles:
       - { role: report, when: test.report | default(False) }
+
+- name: Publish to SonarQube
+  hosts: undercloud[0]
+  gather_facts: no
+  become: true
+  roles:
+      - { role: publish, when: test.publish | default(False) }

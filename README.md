@@ -29,3 +29,10 @@ Aggregate covereage and copy to the undercloud:
 Generate reports:
 
     infrared openstack-coverage --report yes
+
+Publish results to SonarQube:
+
+    infrared openstack-coverage --publish yes \
+    --sonar-url <SONAR_URL>
+    --sonar-login <API_TOKEN>
+    --sonar-project <PROJECT>

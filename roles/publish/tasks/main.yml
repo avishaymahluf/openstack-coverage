@@ -1,0 +1,54 @@
+---
+
+- name: Ensure required rpms for publishing to SonarQube are installed
+  yum: name={{ item }} state=present
+  with_items:
+    - java
+
+- include_role:
+    name: version-discovery
+
+- name: Get puddle version
+  block:
+    - stat:
+        path: ~/core_puddle_version
+      register: puddle_file
+
+    - name: get core puddle version from ~/core_puddle_version
+      command:  cat ~/core_puddle_version
+      register: core_puddle_file
+      when: puddle_file.stat.exists
+
+    - name: get core puddle version from repos
+      shell: cat /etc/yum.repos.d/rhos-release-[0-9]*.repo | grep ^baseurl.*/OpenStack/ | grep -v latest | awk -F / '{print $8 }' | tail -n 1
+      register: core_puddle_repos
+      when: puddle_file.stat.exists == False
+
+    - set_fact:
+        core_puddle: "{{ puddle_file.stat.exists|ternary (core_puddle_file.stdout, core_puddle_repos.stdout) }}"
+
+- name: Download and unzip Sonar Scanner
+  unarchive:
+    src: https://github.com/SonarSource/sonar-scanner-cli/releases/download/2.6-rc1/sonar-scanner-2.6-SNAPSHOT.zip
+    dest: ~/
+    remote_src: yes
+
+- name: Execute Sonar Scanner
+  shell: |
+      ~/sonar-scanner-2.6-SNAPSHOT/bin/sonar-scanner -X -e \
+      -Dsonar.host.url={{ test.sonar.url }} \
+      -Dsonar.projectKey=osp_{{ item }} \
+      "-Dsonar.projectName=OSP: {{ item }}" \
+      -Dsonar.projectVersion=rhos-{{ overcloud_version }}_core_puddle-{{ core_puddle }} \
+      -Dsonar.sources=/usr/lib/python2.7/site-packages/{{ item }} \
+      -Dsonar.projectBaseDir=/usr/lib/python2.7/site-packages/{{ item }} \
+      -Dsonar.python.coverage.reportPath=/coverage/coverage_{{ inventory_hostname }}/coverage_{{ item }}.xml \
+      -Dsonar.login={{ test.sonar.login }} \
+      {% if test.sonar.password is defined %}
+        -Dsonar.password={{ test.sonar.password }} \
+      {% endif %}
+      -Dsonar.language=py \
+      "-Dsonar.inclusions=**/*.py" \
+      "-Dsonar.exclusions=tests/**/*.py" \
+      -Dsonar.ws.timeout=180
+  with_items: "{{ test.sonar.project }}"

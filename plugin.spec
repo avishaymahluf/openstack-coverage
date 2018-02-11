@@ -33,3 +33,30 @@ subparsers:
                       type: Bool
                       default: no
                       help: Generate reports
+
+            - title: Publish to SonarQube
+              options:
+                  publish:
+                      type: Bool
+                      default: no
+                      help: Publish to SonarQube
+                  sonar-url:
+                      type: Value
+                      help: SonarQube host URL
+                      required_when: "publish == True"
+                  sonar-login:
+                      type: Value
+                      help: SonarQube login or API token
+                      required_when: "publish == True"
+                  sonar-password:
+                      type: Value
+                      help: SonarQube password
+                  sonar-project:
+                      type: Value
+                      action: append
+                      help: |
+                          The project to publish coverage results.
+                          More than one --sonar-project option can be provided.
+                          Format: --sonar-project neturon --sonar-project neutron_lbaas
+                      required_when: "publish == True"
+
