@@ -5,24 +5,32 @@
     - tar
 
 - name: aggregate all covereage data
-  shell: coverage combine --append --rcfile=/coverage/.coveragerc
+  shell: coverage combine --append --rcfile={{ coveragerc_path }}
   args:
       chdir: /coverage
 
 - name: generate html coverage report
-  shell: coverage html --rcfile=/coverage/.coveragerc
+  shell: coverage html --rcfile={{ coveragerc_path }}
   args:
       chdir: /coverage
 
-- name: generate xml coverage report
-  shell: coverage xml --rcfile=/coverage/.coveragerc
-  args:
-      chdir: /coverage
+- name: fetch coveragerc
+  fetch:
+      src: "{{ coveragerc_path }}"
+      flat: yes
+      dest: "{{ inventory_dir }}/collected_coverage_files/.coveragerc"
+
+- name: get source modules from coveragerc
+  set_fact:
+    source_modules: "{{ lookup('ini', 'source section=run file={{ inventory_dir }}/collected_coverage_files/.coveragerc') }}"
+
+- name: generate xml coverage report per source module
+  shell: "coverage xml --rcfile={{ coveragerc_path }} -o /coverage/coverage_{{ inventory_hostname }}/coverage_{{item | basename }}.xml  --include=/usr/lib/python2.7/site-packages/{{item | basename }}/*"
+  with_items: "{{ source_modules.split('/,') }}"
+  ignore_errors: yes
 
 - name: generate plain text coverage overview
-  shell: "coverage report --rcfile=/coverage/.coveragerc &> ./coverage_{{ inventory_hostname }}/coverage_{{ inventory_hostname }}.txt"
-  args:
-      chdir: /coverage
+  shell: "coverage report --rcfile={{ coveragerc_path }} &> ./coverage_{{ inventory_hostname }}/coverage_{{ inventory_hostname }}.txt"
 
 - name: append combined data file to collected report
   shell: "cp /coverage/.coverage /coverage/coverage_{{ inventory_hostname }}/combined_data"
