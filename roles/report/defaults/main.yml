@@ -1,3 +1,4 @@
 ---
 
 coveragerc_path: /coverage/.coveragerc
+coverage_results_dir: /coverage/coverage_{{ inventory_hostname }}

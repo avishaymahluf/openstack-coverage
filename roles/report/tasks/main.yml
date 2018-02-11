@@ -25,23 +25,23 @@
     source_modules: "{{ lookup('ini', 'source section=run file={{ inventory_dir }}/collected_coverage_files/.coveragerc') }}"
 
 - name: generate xml coverage report per source module
-  shell: "coverage xml --rcfile={{ coveragerc_path }} -o /coverage/coverage_{{ inventory_hostname }}/coverage_{{item | basename }}.xml  --include=/usr/lib/python2.7/site-packages/{{item | basename }}/*"
+  shell: "coverage xml --rcfile={{ coveragerc_path }} -o {{ coverage_results_dir }}/coverage_{{item | basename }}.xml  --include=/usr/lib/python2.7/site-packages/{{item | basename }}/*"
   with_items: "{{ source_modules.split('/,') }}"
   ignore_errors: yes
 
 - name: generate plain text coverage overview
-  shell: "coverage report --rcfile={{ coveragerc_path }} &> ./coverage_{{ inventory_hostname }}/coverage_{{ inventory_hostname }}.txt"
+  shell: "coverage report --rcfile={{ coveragerc_path }} &> {{ coverage_results_dir }}/coverage_{{ inventory_hostname }}.txt"
 
 - name: append combined data file to collected report
-  shell: "cp /coverage/.coverage /coverage/coverage_{{ inventory_hostname }}/combined_data"
+  shell: "cp /coverage/.coverage {{ coverage_results_dir }}/combined_data"
 
 - name: pack coverage report
-  shell: "tar cJf ./coverage_{{ inventory_hostname }}.tar.xz ./coverage_{{ inventory_hostname }}"
+  shell: "tar cJf {{ coverage_results_dir }}.tar.xz {{ coverage_results_dir }}"
   args:
       chdir: /coverage
 
 - name: fetch log archive and coverage report
   fetch:
-      src: "/coverage/coverage_{{ inventory_hostname }}.tar.xz"
+      src: "{{ coverage_results_dir }}.tar.xz"
       flat: yes
       dest: "{{ inventory_dir }}/collected_coverage_files/coverage_{{ inventory_hostname }}.tar.xz"
