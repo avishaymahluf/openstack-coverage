@@ -76,11 +76,7 @@
 - name: restart all services to activate coverage
   ignore_errors: yes
   shell: openstack-service restart
-  environment:
-        COVERAGE_PROCESS_START: /coverage/.coveragerc
 
 - name: start zaqar service
   shell: systemctl start openstack-zaqar
-  environment:
-        COVERAGE_PROCESS_START: /coverage/.coveragerc
   when: inventory_hostname == groups['undercloud'][0]
