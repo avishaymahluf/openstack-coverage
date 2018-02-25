@@ -20,12 +20,20 @@ subparsers:
                       help: Openstack components packages of code to be measured
                       default: all
 
+            - title: General
+              options:
+                  aggregator:
+                      type: Value
+                      default: "undercloud-0"
+                      help:  |
+                          The host that will aggregate covereage data, generage report and publish to SonarQube.
+
             - title: Collect
               options:
                   collect:
                       type: Bool
                       default: no
-                      help: Aggregate covereage and copy to the undercloud
+                      help: Aggregate covereage and copy to the undercloud by default
 
             - title: Report
               options:
@@ -59,4 +67,3 @@ subparsers:
                           More than one --sonar-project option can be provided.
                           Format: --sonar-project neturon --sonar-project neutron_lbaas
                       required_when: "publish == True"
-

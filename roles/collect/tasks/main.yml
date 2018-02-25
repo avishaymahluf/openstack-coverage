@@ -6,7 +6,7 @@
 - name: stop zaqar service
   become: yes
   shell: systemctl stop openstack-zaqar
-  when: inventory_hostname == groups['undercloud'][0]
+  when: inventory_hostname in groups.get('undercloud', [])
 
 - name: stop all services so they write out data files
   shell: openstack-service stop
@@ -17,10 +17,10 @@
   args:
       chdir: /coverage
 
-- name: copy coverage data to undercloud
+- name: copy coverage data to {{ test.aggregator }}
   synchronize:
       src: /coverage/.coverage
       dest: /coverage/.coverage.{{ inventory_hostname }}
       mode: pull
-  when: inventory_hostname != groups['undercloud'][0]
-  delegate_to: "{{ groups['undercloud'][0] }}"
+  when: inventory_hostname != test.aggregator
+  delegate_to: "{{ test.aggregator }}"

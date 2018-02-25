@@ -65,13 +65,13 @@
   - name: daemon-reload
     shell: systemctl daemon-reload
 
-  when: inventory_hostname in groups['controller']
+  when: inventory_hostname in groups.get('controller', [])
 
 # workaround due to the following bug:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1394689
 - name: stop zaqar service
   shell: systemctl stop openstack-zaqar
-  when: inventory_hostname == groups['undercloud'][0]
+  when: inventory_hostname in groups.get('undercloud', [])
 
 - name: restart all services to activate coverage
   ignore_errors: yes
@@ -79,4 +79,4 @@
 
 - name: start zaqar service
   shell: systemctl start openstack-zaqar
-  when: inventory_hostname == groups['undercloud'][0]
+  when: inventory_hostname in groups.get('undercloud', [])
