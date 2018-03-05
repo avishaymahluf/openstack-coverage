@@ -1,0 +1,50 @@
+- name: Install pip
+  easy_install:
+    name: pip
+    state: latest
+
+- name: Install coverage
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+      - coverage
+
+- name: install python-devel and gcc
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-devel
+    - gcc
+
+# rhos-release used for installing the rhos repos.
+- block:
+    - name: Install rhos-release
+      become: yes
+      package:
+        name="http://rhos-release.virt.bos.redhat.com/repos/rhos-release/rhos-release-latest.noarch.rpm"
+
+    - name: Execute rhos-release to install rhos repos
+      vars:
+        release_version: "{{ test.rhos.release }}"
+        release_version_director: "{{ (release_version|int in [7, 8, 9]) | ternary(release_version + '-director', '') }}"
+      become: yes
+      shell: |
+        /usr/bin/rhos-release -x
+        /usr/bin/rhos-release {{ release_version }} {{ release_version_director }}
+      args:
+        warn: no
+      changed_when: true
+      tags:
+        - skip_ansible_lint
+
+    - name: enable yum-config-manager
+      package:
+        name: yum-utils
+  when: test.install.rhos.repos
+
+- name: get openstack-service command
+  yum:
+    name: openstack-utils
+    state: present

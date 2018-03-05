@@ -19,6 +19,11 @@ subparsers:
                       type: Value
                       help: Openstack components packages of code to be measured
                       default: all
+                  install-rhos-repos:
+                      type: Bool
+                      default: no
+                      help: Install rhos repos during installation of coverage
+
 
             - title: General
               options:
@@ -27,6 +32,11 @@ subparsers:
                       default: "undercloud-0"
                       help:  |
                           The host that will aggregate covereage data, generage report and publish to SonarQube.
+                  rhos-release:
+                      type: Value
+                      help:  |
+                          The RHOS release version.
+                      required_when: "install-rhos-repos == True"
 
             - title: Collect
               options:
