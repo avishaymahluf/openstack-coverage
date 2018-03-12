@@ -37,9 +37,9 @@
   shell: |
       ~/sonar-scanner-2.6-SNAPSHOT/bin/sonar-scanner -X -e \
       -Dsonar.host.url={{ test.sonar.url }} \
-      -Dsonar.projectKey=osp_{{ item }} \
-      "-Dsonar.projectName=OSP: {{ item }}" \
-      -Dsonar.projectVersion=rhos-{{ overcloud_version }}_core_puddle-{{ core_puddle }} \
+      -Dsonar.projectKey=osp_{{ item }}_{{ overcloud_version }}_python_full_analysis \
+      "-Dsonar.projectName=OSP{{ overcloud_version }}: {{ item }}" \
+      -Dsonar.projectVersion=core_puddle-{{ core_puddle }} \
       -Dsonar.sources=/usr/lib/python2.7/site-packages/{{ item }} \
       -Dsonar.projectBaseDir=/usr/lib/python2.7/site-packages/{{ item }} \
       -Dsonar.python.coverage.reportPath=/coverage/coverage_{{ inventory_hostname }}/coverage_{{ item }}.xml \
