@@ -16,10 +16,16 @@
   args:
       chdir: /coverage
 
-- name: copy coverage data to {{ test.aggregator }}
-  synchronize:
-      src: /coverage/.coverage
-      dest: /coverage/.coverage.{{ inventory_hostname }}
-      mode: pull
+- block:
+      - name: fetch coverage data to localhost
+        fetch:
+          src: /coverage/.coverage
+          dest: .coverage.{{ inventory_hostname }}
+          flat: yes
+
+      - name: copy coverage data to {{ test.aggregator }}
+        copy:
+          src: .coverage.{{ inventory_hostname }}
+          dest: /coverage/.coverage.{{ inventory_hostname }}
+        delegate_to: "{{ test.aggregator }}"
   when: inventory_hostname != test.aggregator
-  delegate_to: "{{ test.aggregator }}"
