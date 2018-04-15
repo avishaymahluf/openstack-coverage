@@ -5,33 +5,32 @@ subparsers:
         description: Collection of openstack coverage configuration tasks
         include_groups: ["Ansible options", "Inventory", "Common options", "Answers file"]
         groups:
-            - title: Activate
-              options:
-                  activate:
-                      type: Bool
-                      default: no
-                      help: Install the coverage
-                  hosts:
-                      type: Value
-                      default: openstack_nodes
-                      help: Group of hosts that coverage will be installed on
-                  dfg:
-                      type: Value
-                      help: Openstack components packages of code to be measured
-                      default: all
-                  install-rhos-repos:
-                      type: Bool
-                      default: no
-                      help: Install rhos repos during installation of coverage
-
-
             - title: General
               options:
                   aggregator:
                       type: Value
                       default: "undercloud-0"
                       help:  |
-                          The host that will aggregate covereage data, generage report and publish to SonarQube.
+                          The host that will aggregate coverage data, generate report and publish to SonarQube.
+
+            - title: Activate
+              options:
+                  activate:
+                      type: Bool
+                      default: no
+                      help: Install the coverage
+                  dfg:
+                      type: Value
+                      help: Openstack components packages of code to be measured
+                      default: all
+                  install-hosts:
+                      type: Value
+                      default: openstack_nodes
+                      help: Group of hosts that coverage will be installed on
+                  install-rhos-repos:
+                      type: Bool
+                      default: no
+                      help: Install rhos repos during installation of coverage
                   rhos-release:
                       type: Value
                       help:  |

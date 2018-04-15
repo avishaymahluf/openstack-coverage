@@ -27,12 +27,11 @@
 
     - name: Execute rhos-release to install rhos repos
       vars:
-        release_version: "{{ test.rhos.release }}"
-        release_version_director: "{{ (release_version|int in [7, 8, 9]) | ternary(release_version + '-director', '') }}"
+        rhos_release_director: "{{ (rhos_release|int in [7, 8, 9]) | ternary(rhos_release + '-director', '') }}"
       become: yes
       shell: |
         /usr/bin/rhos-release -x
-        /usr/bin/rhos-release {{ release_version }} {{ release_version_director }}
+        /usr/bin/rhos-release {{ rhos_release }} {{ rhos_release_director }}
       args:
         warn: no
       changed_when: true
@@ -42,7 +41,7 @@
     - name: enable yum-config-manager
       package:
         name: yum-utils
-  when: test.install.rhos.repos
+  when: install_rhos_repos
 
 - name: get openstack-service command
   yum:
