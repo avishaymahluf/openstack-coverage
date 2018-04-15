@@ -1,28 +1,61 @@
 ---
 
 - name: Install covarage
-  hosts: "{{ test.hosts }}"
+  hosts: "{{ test.install.hosts }}"
   become: true
-  roles:
-      - { role: activate, when: test.activate | default(False) }
+  tasks:
+    - name: Set install vars
+      set_fact:
+        dfg: "{{ test.dfg }}"
+        install_rhos_repos: "{{ test.install.rhos.repos }}"
+
+    - name: Set RHOS release version
+      set_fact:
+        rhos_release: "{{ test.rhos.release }}"
+      when: install_rhos_repos | default(False)
+
+    - name: Install coverage
+      include_role:
+        name: activate
+      when: test.activate | default(False)
 
 - name: Collect coverage data from all nodes
   hosts: openstack_nodes
   gather_facts: no
   become: true
-  roles:
-      - { role: collect, when: test.collect | default(False) }
+  tasks:
+    - name: Collect coverage data from all nodes
+      include_role:
+        name: collect
+      vars:
+        aggregator: "{{ test.aggregator }}"
+      when: test.collect | default(False)
 
-- name: Generate coverage report
+- name: Generate coverage report and Publish to SonarQube
   hosts: "{{ test.aggregator }}"
   gather_facts: no
   become: true
-  roles:
-      - { role: report, when: test.report | default(False) }
+  tasks:
+    - name: Generate coverage report
+      include_role:
+        name: report
+      when: test.report | default(False)
 
-- name: Publish to SonarQube
-  hosts: "{{ test.aggregator }}"
-  gather_facts: no
-  become: true
-  roles:
-      - { role: publish, when: test.publish | default(False) }
+    - name: Publish to SonarQube
+      block:
+        - name: Set Sonar server vars
+          set_fact:
+            sonar_url: "{{ test.sonar.url }}"
+            sonar_login: "{{ test.sonar.login }}"
+            sonar_project: "{{ test.sonar.project }}"
+
+        - name: Set Sonar password
+          set_fact:
+            sonar_password: "{{ test.sonar.password }}"
+          when: test.sonar.password | default(False)
+
+        - name: include publish role
+          include_role:
+            name: publish
+
+      when: test.publish | default(False)
