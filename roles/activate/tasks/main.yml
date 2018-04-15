@@ -2,7 +2,7 @@
 
 - name: Include source module vars
   include_vars:
-    file: "dfg/{{ test.dfg }}.yml"
+    file: "dfg/{{ dfg }}.yml"
 
 - include_tasks: "install_dependencies.yml"
 
