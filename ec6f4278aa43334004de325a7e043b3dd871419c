@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3f239ea_31b574a9",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013090
+      },
+      "writtenOn": "2018-04-17T08:43:17Z",
+      "side": 1,
+      "message": "What is code coverage? what are we covering? I think that the opening of this document should give answers to those questions.",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cb1fcf5_2a958914",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013090
+      },
+      "writtenOn": "2018-04-17T08:43:17Z",
+      "side": 1,
+      "message": "It will be nice to have a full name for those roles: activate_code_coverage etc.",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07310b78_ee0129aa",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013090
+      },
+      "writtenOn": "2018-04-17T08:43:17Z",
+      "side": 1,
+      "message": "we can have dfg: all or more than one component, so please add a description of how to do it.",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3fc6d9b_d317df50",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013090
+      },
+      "writtenOn": "2018-04-17T08:43:17Z",
+      "side": 1,
+      "message": "API token is an additional parameter or it should be given as value to sonar_login?",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c40563e0_a849cbd8",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013090
+      },
+      "writtenOn": "2018-04-17T08:43:17Z",
+      "side": 1,
+      "message": "Can we add a task to verify this condition?",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f851f9b8_345b316a",
+        "filename": "plugin.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013090
+      },
+      "writtenOn": "2018-04-17T08:43:17Z",
+      "side": 1,
+      "message": "Instead of 4 different boolean parameters, it can be one parameter with a choise list of the four options. --task: activate",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
