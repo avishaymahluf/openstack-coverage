@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0c1a7f74_e5e04de9",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2018-04-17T09:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3f239ea_31b574a9",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cb1fcf5_2a958914",
         "filename": "README.md",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-17T08:43:17Z",
       "side": 1,
       "message": "It will be nice to have a full name for those roles: activate_code_coverage etc.",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8893c4f0_4770ccfa",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2018-04-17T09:12:01Z",
+      "side": 1,
+      "message": "I\u0027m not sure that adding the word \"code_coverage\" to all roles will make it better. They all under the same repository which is responsible for code coverage. I think it is pretty clear that the roles are related to code coverage.",
+      "parentUuid": "1cb1fcf5_2a958914",
       "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8ee94eca_28235aca",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2018-04-17T09:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07310b78_ee0129aa",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3fc6d9b_d317df50",
         "filename": "README.md",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "919691d0_624a52e7",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2018-04-17T09:12:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3fc6d9b_d317df50",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c40563e0_a849cbd8",
         "filename": "README.md",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2018-04-17T08:43:17Z",
       "side": 1,
       "message": "Can we add a task to verify this condition?",
+      "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9298573_b6584958",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2018-04-17T09:12:01Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to, that\u0027s why I write it in readme.\nIf someone wants to use this in playbook its his responsibility to add this role to the roles folder.\nIf it will not be there it will simply fail when trying to import that role.\nAlso, as specified below, it can be skipped by adding the overcloud_version variable to the role.",
+      "parentUuid": "c40563e0_a849cbd8",
       "revId": "ec6f4278aa43334004de325a7e043b3dd871419c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
