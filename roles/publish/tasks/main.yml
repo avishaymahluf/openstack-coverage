@@ -32,13 +32,13 @@
 
 - name: Download and unzip Sonar Scanner
   unarchive:
-    src: https://github.com/SonarSource/sonar-scanner-cli/releases/download/2.6-rc1/sonar-scanner-2.6-SNAPSHOT.zip
+    src: https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
     dest: ~/
     remote_src: yes
 
 - name: Execute Sonar Scanner
   shell: |
-      ~/sonar-scanner-2.6-SNAPSHOT/bin/sonar-scanner -X -e \
+      ~/sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -X -e \
       -Dsonar.host.url={{ sonar_url }} \
       -Dsonar.projectKey=osp_{{ item }}_{{ overcloud_version }}_python_full_analysis \
       "-Dsonar.projectName=OSP{{ overcloud_version }}: {{ item }}" \
