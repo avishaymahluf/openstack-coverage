@@ -1,0 +1,7 @@
+Code-Review+2: Vadim Griner <vgriner@redhat.com>
+Verified+1: Avishay Mahluf <avishay89@gmail.com>
+Submitted-by: Avishay Mahluf <avishay89@gmail.com>
+Submitted-at: Wed, 30 May 2018 11:54:45 +0000
+Reviewed-on: https://review.gerrithub.io/412961
+Project: rhos-infra/openstack-coverage
+Branch: refs/heads/master
