@@ -1,0 +1,16 @@
+---
+
+containers:
+    - neutron_api
+#    - neutron_dhcp
+#    - neutron_metadata_agent
+#    - neutron_l3_agent
+#    - neutron_ovs_agent
+
+source_modules:
+    - neutron
+    - neutron_fwaas
+    - neutron_lbaas
+    - neutron_lib
+    - neutronclient
+    - octavia

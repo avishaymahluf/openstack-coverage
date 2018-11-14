@@ -1,9 +1,0 @@
----
-
-source_modules:
-    - neutron
-    - neutron_fwaas
-    - neutron_lbaas
-    - neutron_lib
-    - neutronclient
-    - octavia

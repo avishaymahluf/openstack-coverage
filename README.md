@@ -3,7 +3,7 @@
 Ansible roles for measuring coverage on the openstack python components 
 while deployment and execution of tests.
 
-This repository contains 4 roles for installing, aggregating data, generating reports and publishing to SonarQube:
+This repository contains a role for installing, aggregating data, generating reports and publishing to SonarQube:
 
 * Activate - Installs and configures coverage tool and dependencies.
 * Collect - Aggregates coverage and copy to the undercloud by default
@@ -75,8 +75,9 @@ The project to publish coverage results:
       become: true
       tasks:
         - name: Install coverage
-          include_role:
-            name: activate
+          import_role:
+            name: openstack-coverage
+            tasks_from: activate.yml
           vars:
             dfg: "network"
             install_rhos_repos: false
@@ -89,8 +90,9 @@ The project to publish coverage results:
       become: true
       tasks:
         - name: Collect coverage data from all nodes
-          include_role:
-            name: collect
+          import_role:
+            name: openstack-coverage
+            tasks_from: collect.yml
           vars:
             aggregator: "undercloud-0"
 
@@ -102,8 +104,9 @@ The project to publish coverage results:
       become: true
       tasks:
         - name: Generate coverage report
-          include_role:
-            name: report
+          import_role:
+            name: openstack-coverage
+            tasks_from: report.yml
 
 ### Publish
 
@@ -119,8 +122,9 @@ The inclusion of version-discovery can be skipped by specifying the "overcloud_v
       become: true
       tasks:
         - name: Publish to SonarQube
-          include_role:
-            name: publish
+          import_role:
+            name: openstack-coverage
+            tasks_from: publish.yml
           vars:
             sonar_url: "http://sonarqubeurl.example.com"
             sonar_login: "login_or_apitoken"

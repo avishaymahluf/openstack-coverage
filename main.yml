@@ -15,8 +15,9 @@
       when: install_rhos_repos | default(False)
 
     - name: Install coverage
-      include_role:
-        name: activate
+      import_role:
+        name: openstack-coverage
+        tasks_from: activate.yml
       when: test.activate | default(False)
 
 - name: Collect coverage data from all nodes
@@ -25,8 +26,9 @@
   become: true
   tasks:
     - name: Collect coverage data from all nodes
-      include_role:
-        name: collect
+      import_role:
+        name: openstack-coverage
+        tasks_from: collect.yml
       vars:
         aggregator: "{{ test.aggregator }}"
       when: test.collect | default(False)
@@ -37,8 +39,9 @@
   become: true
   tasks:
     - name: Generate coverage report
-      include_role:
-        name: report
+      import_role:
+        name: openstack-coverage
+        tasks_from: report.yml
       when: test.report | default(False)
 
     - name: Publish to SonarQube
@@ -55,7 +58,8 @@
           when: test.sonar.password | default(False)
 
         - name: include publish role
-          include_role:
-            name: publish
+          import_role:
+            name: openstack-coverage
+            tasks_from: publish.yml
 
       when: test.publish | default(False)

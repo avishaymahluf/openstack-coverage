@@ -1,0 +1,11 @@
+---
+
+aggregator: "undercloud-0"
+coveragerc_path: /coverage/.coveragerc
+coverage_results_dir: /coverage/coverage_{{ inventory_hostname }}
+dfg: "all"
+install_rhos_repos: false
+sonar_url: ""
+sonar_login: ""
+sonar_project: ""
+
