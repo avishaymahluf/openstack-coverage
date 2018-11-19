@@ -1,24 +1,16 @@
 ---
 
-- name: Install covarage
-  hosts: "{{ test.install.hosts }}"
-  become: true
-  tasks:
-    - name: Set install vars
-      set_fact:
-        dfg: "{{ test.dfg }}"
-        install_rhos_repos: "{{ test.install.rhos.repos }}"
+- name: Install coverage
+  import_playbook: install.yml
+  when:
+    - test.activate | default(False)
+    - not test.containers
 
-    - name: Set RHOS release version
-      set_fact:
-        rhos_release: "{{ test.rhos.release }}"
-      when: install_rhos_repos | default(False)
-
-    - name: Install coverage
-      import_role:
-        name: openstack-coverage
-        tasks_from: activate.yml
-      when: test.activate | default(False)
+- name: Install coverage on containers
+  import_playbook: install_containers.yml
+  when:
+    - test.activate | default(False)
+    - test.containers
 
 - name: Collect coverage data from all nodes
   hosts: openstack_nodes

@@ -1,0 +1,19 @@
+---
+
+- name: Install covarage
+  hosts: "{{ test.install.hosts }}"
+  become: true
+  tasks:
+    - name: Set install vars
+      set_fact:
+        dfg: "{{ test.dfg }}"
+        install_rhos_repos: "{{ test.install.rhos.repos }}"
+
+    - name: set os_version fact
+      set_fact:
+        os_version: "{{ test.openstack.version | openstack_release }}"
+
+    - name: Install coverage
+      import_role:
+        name: openstack-coverage
+        tasks_from: install.yml

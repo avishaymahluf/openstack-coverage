@@ -12,6 +12,15 @@ subparsers:
                       default: "undercloud-0"
                       help:  |
                           The host that will aggregate coverage data, generate report and publish to SonarQube.
+                  containers:
+                      type: Bool
+                      default: no
+                      help: Openstack services are in containers
+                  openstack-version:
+                      type: Value
+                      required: true
+                      help:  |
+                          The Openstack version.
 
             - title: Activate
               options:
@@ -31,11 +40,23 @@ subparsers:
                       type: Bool
                       default: no
                       help: Install rhos repos during installation of coverage
-                  rhos-release:
+
+                  registry-mirror:
                       type: Value
-                      help:  |
-                          The RHOS release version.
-                      required_when: "install-rhos-repos == True"
+                      help: The alternative docker registry to use for deployment.
+
+                  registry-namespace:
+                      type: Value
+                      help: The alternative docker registry namespace to use for deployment.
+
+                  registry-prefix:
+                      type: Value
+                      help: The images prefix
+
+                  registry-tag:
+                      type: Value
+                      help: The images tag
+
 
             - title: Collect
               options:

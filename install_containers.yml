@@ -1,0 +1,43 @@
+---
+
+- name: Install covarage
+  hosts: "{{ test.install.hosts }}"
+  become: true
+  tasks:
+    - name: Set install vars
+      set_fact:
+        dfg: "{{ test.dfg }}"
+        install_rhos_repos: "{{ test.install.rhos.repos }}"
+
+    - name: set os_version fact
+      set_fact:
+        os_version: "{{ test.openstack.version | openstack_release }}"
+
+    - name: Load variables from container environment file
+      include_vars:
+          file: "{{ inventory_dir }}/overcloud_container_image_prepare.yaml"
+          name: container_env
+
+    - name: override registry parameters from CLI
+      set_fact:
+        container_env:
+          container-image-prepare:
+            namespace: "{{ test.get('registry', {}).namespace|default(container_env['container-image-prepare'].namespace) }}"
+            prefix: "{{ test.get('registry', {}).prefix|default(container_env['container-image-prepare'].prefix) }}"
+            tag: "{{ test.get('registry', {}).tag|default(container_env['container-image-prepare'].tag) }}"
+
+    - name: set docker_registry_undercloud facts
+      set_fact:
+        docker_registry_undercloud: "{{ ansible_br_ctlplane['ipv4']['address'] }}:8787"
+        docker_registry_undercloud_namespace: "{{ test.get('registry', {}).namespace|default('rhosp' + os_version) }}"
+
+    - name: set required facts for "container image prepare"
+      set_fact:
+        container_image:
+          openstack_version: "{{ os_version }}"
+          basereg_relative: "{{ test.get('registry', {}).namespace|default(False)|ternary(test.get('registry', {}).namespace, ''.join(container_env['container-image-prepare']['namespace'].split('/')[1:])) }}"
+
+    - name: Install coverage
+      import_role:
+        name: openstack-coverage
+        tasks_from: install_containers.yml
