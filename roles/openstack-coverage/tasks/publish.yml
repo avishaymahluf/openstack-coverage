@@ -32,7 +32,7 @@
 
 - name: Download and unzip Sonar Scanner
   unarchive:
-    src: https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+    src: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
     dest: ~/
     remote_src: yes
 
