@@ -1,6 +1,6 @@
 ---
 
-dfg_containers:
+dfg_container_images:
     - neutron-server
 
 source_modules:

@@ -79,4 +79,4 @@
 
       # push the patched container image in place of the original
       docker push {{ docker_registry_undercloud }}/{{ container_image['basereg_relative'] }}/{{ container_env['container-image-prepare']['prefix'] }}{{ item }}:{{ container_env['container-image-prepare']['tag'] }}
-  with_items: "{{ dfg_containers }}"
+  with_items: "{{ dfg_container_images }}"
