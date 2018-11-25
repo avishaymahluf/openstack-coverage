@@ -1,0 +1,26 @@
+---
+
+- name: "Stop {{ service_container }} container so it will write out data files"
+  shell: "docker stop -t 500 {{ service_container }}"
+
+- name: "Create coverage folder for {{ service_container }} container"
+  file:
+    path: /coverage_{{ service_container }}
+    state: directory
+    mode: 0777
+
+- name: "Copy coverage data from {{ service_container }} container and combine them"
+  shell: |
+    docker cp '{{ service_container }}':/coverage/ /coverage_{{ service_container }}
+  retries: 10
+  delay: 3
+  until: coverage_copy.rc == 0
+  register: coverage_copy
+
+- name: Copy coverage raw data files to main coverage folder
+  shell: cp /coverage_{{ service_container }}/coverage/.coverage.* /coverage
+
+- name: "aggregate coverage data {{ service_container }}"
+  shell: coverage combine --append --rcfile=/coverage/.coveragerc
+  args:
+      chdir: /coverage

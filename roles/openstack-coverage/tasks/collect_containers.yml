@@ -1,0 +1,60 @@
+---
+- name: Include source module vars
+  include_vars:
+    file: "dfg/{{ dfg }}.yml"
+
+- name: make sure coverage installed on host
+  block:
+  - name: Install pip
+    easy_install:
+      name: pip
+      state: latest
+
+  - name: Install coverage
+    pip:
+      name: coverage
+      state: latest
+
+  - name: Create coverage folder
+    file:
+      path: /coverage
+      state: directory
+      mode: 0777
+
+  - name: Generate coveragerc configuration file
+    template:
+      dest: "/coverage/.coveragerc"
+      src: my.coveragerc.j2
+      mode: 0644
+
+- name: "Get all running {{ dfg }} containers"
+  shell: "docker ps | grep {{ item }} | cut -d ' ' -f1"
+  register: service_containers_single
+  with_items: "{{ dfg_container_images }}"
+
+- name: set service_containers
+  set_fact:
+    service_containers: "{{ (service_containers | default([])) + item.stdout_lines }}"
+  with_items: "{{ service_containers_single.results }}"
+
+- name: Fetch data from containers
+  include_tasks: "fetch_from_container.yml"
+  with_items: "{{ service_containers }}"
+  loop_control:
+      loop_var: service_container
+
+- block:
+    - name: fetch coverage data to localhost
+      fetch:
+        src: /coverage/.coverage
+        dest: .coverage.{{ inventory_hostname }}
+        flat: yes
+
+    - name: copy coverage data to {{ aggregator }}
+      copy:
+        src: .coverage.{{ inventory_hostname }}
+        dest: /coverage/.coverage.{{ inventory_hostname }}
+      delegate_to: "{{ aggregator }}"
+  when:
+    - inventory_hostname != aggregator
+    - service_containers | length > 0

@@ -17,13 +17,33 @@
   gather_facts: no
   become: true
   tasks:
+    - name: Set install vars
+      set_fact:
+        dfg: "{{ test.dfg }}"
+
+    - name: set os_version fact
+      set_fact:
+        os_version: "{{ test.openstack.version | openstack_release }}"
+
     - name: Collect coverage data from all nodes
       import_role:
         name: openstack-coverage
         tasks_from: collect.yml
       vars:
         aggregator: "{{ test.aggregator }}"
-      when: test.collect | default(False)
+      when:
+        - test.collect | default(False)
+        - not test.containers
+
+    - name: Collect coverage data from all containers on all nodes
+      import_role:
+        name: openstack-coverage
+        tasks_from: collect_containers.yml
+      vars:
+        aggregator: "{{ test.aggregator }}"
+      when:
+        - test.collect | default(False)
+        - test.containers
 
 - name: Generate coverage report and Publish to SonarQube
   hosts: "{{ test.aggregator }}"
