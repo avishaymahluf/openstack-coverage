@@ -29,3 +29,12 @@
           dest: /coverage/.coverage.{{ inventory_hostname }}
         delegate_to: "{{ aggregator }}"
   when: inventory_hostname != aggregator
+
+- block:
+      - name: Get puddle version
+        include_tasks: puddle-discovery.yml
+
+      - name: Create File with puddle info
+        shell: |
+            echo {{ core_puddle }} > core_puddle
+  when: test.discover.puddle | default(False)

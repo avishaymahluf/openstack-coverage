@@ -58,3 +58,12 @@
   when:
     - inventory_hostname != aggregator
     - service_containers | length > 0
+
+- block:
+      - name: Get puddle version
+        include_tasks: puddle-discovery.yml
+
+      - name: Create File with puddle info
+        shell: |
+            echo {{ core_puddle }} > core_puddle
+  when: test.discover.puddle | default(False)

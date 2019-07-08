@@ -5,30 +5,8 @@
   with_items:
     - java
 
-- include_role:
-    name: version-discovery
-  when: overcloud_version is not defined
-
 - name: Get puddle version
-  block:
-    - stat:
-        path: ~/core_puddle_version
-      become: no
-      register: puddle_file
-
-    - name: get core puddle version from ~/core_puddle_version
-      command:  cat ~/core_puddle_version
-      become: no
-      register: core_puddle_file
-      when: puddle_file.stat.exists
-
-    - name: get core puddle version from repos
-      shell: cat /etc/yum.repos.d/rhos-release-[0-9]*.repo | grep ^baseurl.*/OpenStack/ | grep -v latest | awk -F / '{print $8 }' | tail -n 1
-      register: core_puddle_repos
-      when: puddle_file.stat.exists == False
-
-    - set_fact:
-        core_puddle: "{{ puddle_file.stat.exists|ternary (core_puddle_file.stdout, core_puddle_repos.stdout) }}"
+  include_tasks: puddle-discovery.yml
 
 - name: Download and unzip Sonar Scanner
   unarchive:

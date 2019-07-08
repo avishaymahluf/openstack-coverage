@@ -21,6 +21,10 @@ subparsers:
                       required: true
                       help:  |
                           The Openstack version.
+                  discover-puddle:
+                      type: Bool
+                      default: no
+                      help: Run discover puddle and fetch the info into file
 
             - title: Activate
               options:
