@@ -1,0 +1,28 @@
+- name: add storage to host list
+  add_host:
+      name: "{{ test.storage.hostname.split('.')[0] | lower }}"
+      groups: "storage"
+      ansible_user: "{{ test.storage.user }}"
+      ansible_ssh_pass: ""
+      ansible_host: "{{ test.storage.hostname}}"
+      ansible_ssh_private_key_file: "{{ test.storage.key }}"
+
+- name:
+  set_fact:
+      log_directory: "{{ test.storage.log.dir }}/{{test.openstack.version}}/{{ core_puddle }}/{{test.dfg}}/"
+      job_dir: "{{test.jenkins.job.name}}_{{test.jenkins.build.id}}"
+      full_log_dir_path: "{{ log_directory }}/{{ job_dir }}"
+
+- block:
+    - name: Check storage directory exists
+      file:
+          path: {{ full_log_dir_path }}
+          state: directory
+          recurse: yes
+          mode: 0755
+    - name: copy coverage data from undercloud to selected storage
+      synchronize:
+          src: {{ coverage_results_dir }}/combined_data
+          dest: {{ full_log_dir_path }}
+          mode: pull
+  delegate_to: "{{ groups.storage | first }}"
