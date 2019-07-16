@@ -56,6 +56,12 @@
         tasks_from: report.yml
       when: test.report | default(False)
 
+    - name: Copy coverage report to storage
+      import_role:
+        name: openstack-coverage
+        tasks_from: storage.yml
+      when: test.get('storage', {}).activate | default(False)
+
     - name: Publish to SonarQube
       block:
         - name: Set Sonar server vars

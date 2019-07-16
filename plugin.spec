@@ -76,6 +76,37 @@ subparsers:
                       default: no
                       help: Generate reports
 
+            - title: Storage
+              options:
+                  storage-activate:
+                      type: Bool
+                      default: no
+                      help: Send collected raw data coverage results to storage
+                  storage-hostname:
+                      type: Value
+                      help: Storage hostname to which collected raw data coverage results should be sent
+                  storage-log-dir:
+                      type: Value
+                      help: Storage logs directory in which collected raw data coverage results should be stored
+                  storage-user:
+                      type: Value
+                      default: rhos-ci
+                      help: Storage server username
+                  storage-key:
+                      type: Value
+                      help: Storage server key
+
+            - title: Jenkins Job Metadata
+              options:
+                  jenkins-job-name:
+                      type: Value
+                      help: Jenkins Job name
+                      required_when: "storage == True"
+                  jenkins-build-id:
+                      type: Value
+                      help: Jenkins build ID
+                      required_when: "storage == True"
+
             - title: Publish to SonarQube
               options:
                   publish:
