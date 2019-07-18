@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b9df196_dc750f6f",
+        "filename": "plugin.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-18T12:36:34Z",
+      "side": 1,
+      "message": "this will be overwritten by the other parameters",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 24
+      },
+      "revId": "68fc7454dcbbeea0cbef7f1c1b38d0b6048a30db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6c6187f_11b9cba8",
+        "filename": "plugin.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-18T12:36:34Z",
+      "side": 1,
+      "message": "remove the default please",
+      "range": {
+        "startLine": 87,
+        "startChar": 31,
+        "endLine": 87,
+        "endChar": 62
+      },
+      "revId": "68fc7454dcbbeea0cbef7f1c1b38d0b6048a30db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded29bdf_2c5108b6",
+        "filename": "plugin.spec",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-18T12:36:34Z",
+      "side": 1,
+      "message": "remove default",
+      "range": {
+        "startLine": 91,
+        "startChar": 31,
+        "endLine": 91,
+        "endChar": 61
+      },
+      "revId": "68fc7454dcbbeea0cbef7f1c1b38d0b6048a30db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "211f8124_bade5646",
+        "filename": "roles/openstack-coverage/tasks/storage.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-18T12:36:34Z",
+      "side": 1,
+      "message": "this should be:\n{{ inventory_dir }}/collected_coverage_files/{{ job_name }}",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 53
+      },
+      "revId": "68fc7454dcbbeea0cbef7f1c1b38d0b6048a30db",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
