@@ -11,10 +11,16 @@
   include_tasks: puddle-discovery.yml
   when: core_puddle is not defined
 
-- name:
+- name: set fact log_directory
   set_fact:
       log_directory: "{{ test.storage.log.dir }}/{{ test.openstack.version }}/{{ core_puddle }}/{{ test.dfg }}/"
+
+- name: set fact job_name
+  set_fact:
       job_name: "{{ test.jenkins.job.name }}_{{ test.jenkins.build.id }}"
+
+- name: set fact full_log_path
+  set_fact:
       full_log_path: "{{ log_directory }}/coverage_data_file_{{ job_name }}"
 
 - name: Check storage directory exists
