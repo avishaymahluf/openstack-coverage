@@ -30,9 +30,14 @@
       recurse: yes
   delegate_to: localhost
 
+- name: aggregate all covereage data
+  shell: coverage combine --append --rcfile={{ coveragerc_path }}
+  args:
+      chdir: /coverage
+
 - name: copy file to local
   fetch:
-      src: "{{ coverage_results_dir }}/combined_data"
+      src: "/coverage/.coverage"
       dest: "{{ inventory_dir }}/collected_coverage_files/{{ job_name }}"
       flat: yes
 
