@@ -3,7 +3,6 @@
       name: "{{ test.storage.hostname.split('.')[0] | lower }}"
       groups: "storage"
       ansible_user: "{{ test.storage.user }}"
-      ansible_ssh_pass: ""
       ansible_host: "{{ test.storage.hostname}}"
       ansible_ssh_private_key_file: "{{ test.storage.key }}"
 
@@ -28,12 +27,14 @@
       path: "{{ inventory_dir }}/collected_coverage_files/"
       state: directory
       recurse: yes
+  become: no
   delegate_to: localhost
 
 - name: aggregate all covereage data
   shell: coverage combine --append --rcfile={{ coveragerc_path }}
   args:
       chdir: /coverage
+  ignore_errors: yes
 
 - name: copy file to local
   fetch:
@@ -41,17 +42,18 @@
       dest: "{{ inventory_dir }}/collected_coverage_files/{{ job_name }}"
       flat: yes
 
-- name: Check storage directory exists
-  file:
-      path: "{{ full_log_dir_path }}"
-      state: directory
-      recurse: yes
-      mode: 0755
-  delegate_to: "{{ groups.storage | first }}"
+- block:
+  - name: Check storage directory exists
+    file:
+        path: "{{ log_directory }}"
+        state: directory
+        recurse: yes
+        mode: 0755
 
-- name: copy coverage data from undercloud to selected storage
-  copy:
-      src: "{{ inventory_dir }}/collected_coverage_files/{{ job_name }}"
-      dest: "{{ full_log_path }}"
-      force: yes
+  - name: copy coverage data from undercloud to selected storage
+    copy:
+        src: "{{ inventory_dir }}/collected_coverage_files/{{ job_name }}"
+        dest: "{{ full_log_path }}"
+        force: yes
+  become: no
   delegate_to: "{{ groups.storage | first }}"
