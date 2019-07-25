@@ -1,0 +1,7 @@
+Code-Review+2: Avishay Mahluf <amachluf@redhat.com>
+Verified+1: Avishay Mahluf <amachluf@redhat.com>
+Submitted-by: Vadim G <vgriner@redhat.com>
+Submitted-at: Thu, 25 Jul 2019 10:47:59 +0000
+Reviewed-on: https://review.gerrithub.io/c/rhos-infra/openstack-coverage/+/463159
+Project: rhos-infra/openstack-coverage
+Branch: refs/heads/master
