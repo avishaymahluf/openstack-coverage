@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7f32496_2554d747",
+        "filename": "roles/openstack-coverage/tasks/storage.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-25T08:56:02Z",
+      "side": 1,
+      "message": "why do you need to copy multiple files?\nYou can use the \"coverage combine\" cli to combine them all together and copy only one file.\n\nYou can replace it with this task:\n- name: aggregate all covereage data\n  shell: coverage combine --append --rcfile\u003d{{ coveragerc_path }}\n  args:\n      chdir: /coverage",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 31
+      },
+      "revId": "35394749d4112c7fa76c50f17c080c0e39f2096c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1631c397_c00b56c2",
+        "filename": "roles/openstack-coverage/tasks/storage.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-25T08:56:02Z",
+      "side": 1,
+      "message": "this should be \"coverage/.coverage\"",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 33
+      },
+      "revId": "35394749d4112c7fa76c50f17c080c0e39f2096c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8243bee6_e8eaada6",
+        "filename": "roles/openstack-coverage/tasks/storage.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-25T08:56:02Z",
+      "side": 1,
+      "message": "this can be removed since you\u0027ll have only one file after combine",
+      "range": {
+        "startLine": 44,
+        "startChar": 72,
+        "endLine": 44,
+        "endChar": 82
+      },
+      "revId": "35394749d4112c7fa76c50f17c080c0e39f2096c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a775341_b938a340",
+        "filename": "roles/openstack-coverage/tasks/storage.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012221
+      },
+      "writtenOn": "2019-07-25T08:56:02Z",
+      "side": 1,
+      "message": "This is not needed",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 47
+      },
+      "revId": "35394749d4112c7fa76c50f17c080c0e39f2096c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
