@@ -30,11 +30,20 @@
       recurse: yes
   delegate_to: localhost
 
+- name: Find in /coverage files start with .coverage
+  find:
+      paths: /coverage
+      file_type: file
+      patterns: '.coverage*'
+      excludes: '.coveragerc'
+  register: coverage_file_names
+
 - name: copy file to local
   fetch:
-      src: "{{ coverage_results_dir }}/combined_data"
-      dest: "{{ inventory_dir }}/collected_coverage_files/{{ job_name }}"
+      src: "/coverage/{{ item }}"
+      dest: "{{ inventory_dir }}/collected_coverage_files/{{ job_name }}{{ item }}"
       flat: yes
+  with_items: "{{ coverage_file_names.files }}"
 
 - name: Check storage directory exists
   file:
