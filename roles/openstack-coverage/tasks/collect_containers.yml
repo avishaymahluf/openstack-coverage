@@ -62,8 +62,10 @@
 - block:
       - name: Get puddle version
         include_tasks: puddle-discovery.yml
+        delegate_to: "{{ aggregator }}"
 
       - name: Create File with puddle info
         shell: |
             echo {{ core_puddle }} > core_puddle
+        delegate_to: "{{ aggregator }}"
   when: test.discover.puddle | default(False)
